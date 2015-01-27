@@ -1,4 +1,4 @@
-unction Etat(int n){
+function Etat(int n){
 
 this.num=n;
 this.relations=[];
