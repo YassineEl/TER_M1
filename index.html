@@ -1,0 +1,228 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+ 
+ <head>
+ 
+<!-- En-tête du document  -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 
+  <!-- Balise meta  -->
+  <meta name="title" content="Titre de la page" />
+  <meta name="description" content="description de la page"
+  <meta name="keywords" content="mots-clé1, mots-clé2, ..."
+ 
+  <!-- Indexer et suivre -->
+  <meta name="robots" content="index,follow" />
+ 
+  <!--  Relier une feuille CSS externe  -->
+  <link rel='stylesheet' href='votre-fichier.css' type='text/css' />
+ 
+  <!-- Incorporez du CSS dans la page  -->
+  <style type="text/css" media="screen">
+  
+			text {
+  font: 50px sans-serif;
+  pointer-events: none;
+}
+
+text.id {
+  text-anchor: middle;
+  font-weight: bold;
+  -webkit-user-select: none; 
+-khtml-user-select: none;
+-moz-user-select: none;
+}
+	</style>
+  
+ 
+		<script src="jquery.js"></script>
+		<script src="automate.js"></script>
+		<script src="transation.js"></script>
+		<script src="etat.js"></script>
+		<script src="matrice.js"></script>
+		<script>
+			
+			
+			var t,e,f,aut;
+			var svg;
+			
+			
+			$(document).ready(function(){
+				
+				svg=$("#svg")[0];
+			
+				
+					
+				
+			    t=[];
+
+			    /*
+				t.push(new Transition(0,"a",1));
+				t.push(new Transition(0,"b",2));
+				t.push(new Transition(1,"b",2));
+				t.push(new Transition(1,"a",3));
+				t.push(new Transition(2,"a",3));
+				t.push(new Transition(2,"b",4));
+				t.push(new Transition(3,"a",4));
+				t.push(new Transition(3,"b",5));
+			    t.push(new Transition(4,"a",1));
+			    t.push(new Transition(4,"b",2));
+				t.push(new Transition(5,"b",3));
+				t.push(new Transition(5,"a",6));
+				t.push(new Transition(6,"a",6));
+				*/
+
+
+
+				et=[];
+
+				/*
+				e.push("a");
+				e.push("b");
+				*/
+
+
+				f=[];
+				/*
+				f.push(6);
+				*/
+			    
+				
+
+
+
+				var fileInput = document.getElementById('fileInput');
+		var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0];
+			var textType = /text.*/;
+
+			if (file.type.match(textType)) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					 
+
+
+					 var result=reader.result.split("\n");
+
+					 	var i;
+					 	var etiquettes=result[1].split(",");
+
+					 	// les etiquettes
+					 	
+					 	for(i=0;i<etiquettes.length;i++){
+					 		et.push(etiquettes[i]);
+					 		
+					 		
+					 	}
+
+					 	
+					 	for(i=3;i<result.length;i++)
+					 		{
+					 			
+								var tran=result[i].split("=>");
+									if(tran.length==3)
+								t.push(new Transition(parseInt(tran[0]),tran[1], parseInt(tran[2]) ));					 			
+
+
+
+					 		}						
+
+
+					 		// les etats puits
+					 		var etatPuis=result[2].split(",");
+					 		for(i=0;i<etatPuis.length;i++)
+					 			f.push(etatPuis[i]);
+
+
+					 		 aut=new Automate(parseInt(result[0]),et,f,t,svg);
+							 aut.initialiser();
+		
+
+				}
+
+				reader.readAsText(file);	
+			} else {
+				fileDisplayArea.innerText = "File not supported!";
+			}
+		});
+
+
+
+
+
+
+
+
+			   		
+				$("#tel").click(function(){
+
+					aut.telecharger();
+				});  
+				
+			});
+		
+		</script>
+
+
+
+
+
+
+
+
+  <noscript>
+
+  Votre navigateur ne supporte pas javascript
+  veuillez utiliser une version plus recente ou changer de navigateur ...
+  </noscript>
+ 
+ </head>
+ 
+ 
+ <body>
+ 
+  			<div id="documentSvg">
+		<?xml version="1.0" standalone="no"?>	
+		<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+		"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+		<svg  id="svg" height="800" width="1000"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+		 <rect x="0" y="0" width="1000" height="800" fill="thistle" id="bpard" />
+		<defs id="definition">
+    <marker id="Triangle"
+      viewBox="0 0 10 10" refX="0" refY="5" 
+      markerUnits="strokeWidth"
+      markerWidth="4" markerHeight="3"
+      orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+		</svg>
+
+	</div>
+	<div id="page-wrapper">
+
+		<h1>Text File Reader</h1>
+		<div>
+			Select a text file: 
+			<input type="file" id="fileInput">
+		</div>
+		<pre id="fileDisplayArea"><pre>
+
+	</div>
+
+	<a href="#" id="tel">telecharger le fichier SVG </a>
+ </body>
+</html>
