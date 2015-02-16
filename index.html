@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
  
@@ -30,6 +19,22 @@
  
   <!-- Incorporez du CSS dans la page  -->
   <style type="text/css" media="screen">
+
+  #gauche{
+	position:					fixed;
+	top:						10px;
+	height:						100%;
+	width:						18%;
+	padding:					20px;
+}
+
+#droite{
+	height:						100%;
+	width:						80%;
+	float:						right;
+	margin:						0 auto;
+	margin-top:					10px;
+}
   
 			text {
   font: 50px sans-serif;
@@ -63,49 +68,34 @@ text.id {
 				svg=$("#svg")[0];
 			
 				
+
+
+
+
+
+
+					
+
+
+
+
+
 					
 				
-			    t=[];
+			    t=[]; //les transations
 
-			    /*
-				t.push(new Transition(0,"a",1));
-				t.push(new Transition(0,"b",2));
-				t.push(new Transition(1,"b",2));
-				t.push(new Transition(1,"a",3));
-				t.push(new Transition(2,"a",3));
-				t.push(new Transition(2,"b",4));
-				t.push(new Transition(3,"a",4));
-				t.push(new Transition(3,"b",5));
-			    t.push(new Transition(4,"a",1));
-			    t.push(new Transition(4,"b",2));
-				t.push(new Transition(5,"b",3));
-				t.push(new Transition(5,"a",6));
-				t.push(new Transition(6,"a",6));
-				*/
+				et=[];// les etiquettes
 
-
-
-				et=[];
-
-				/*
-				e.push("a");
-				e.push("b");
-				*/
-
-
-				f=[];
-				/*
-				f.push(6);
-				*/
+				f=[];// les etats finaux
 			    
 				
 
 
 
 				var fileInput = document.getElementById('fileInput');
-		var fileDisplayArea = document.getElementById('fileDisplayArea');
+				var fileDisplayArea = document.getElementById('fileDisplayArea');
 
-		fileInput.addEventListener('change', function(e) {
+				fileInput.addEventListener('change', function(e) {
 			var file = fileInput.files[0];
 			var textType = /text.*/;
 
@@ -173,6 +163,8 @@ text.id {
 					aut.telecharger();
 				});  
 				
+
+ 
 			});
 		
 		</script>
@@ -195,7 +187,7 @@ text.id {
  
  <body>
  
-  			<div id="documentSvg">
+  			<div id="droite">
 		<?xml version="1.0" standalone="no"?>	
 		<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
 		"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -212,6 +204,7 @@ text.id {
 		</svg>
 
 	</div>
+	<div id="gauche">
 	<div id="page-wrapper">
 
 		<h1>Text File Reader</h1>
@@ -219,10 +212,13 @@ text.id {
 			Select a text file: 
 			<input type="file" id="fileInput">
 		</div>
-		<pre id="fileDisplayArea"><pre>
+	
 
 	</div>
 
 	<a href="#" id="tel">telecharger le fichier SVG </a>
+	<a href="test.txt" download>telecharger un exemple de fichier test</a>
+	<a href="source.zip" download>telecharger le code source</a>
+	</div>
  </body>
 </html>
