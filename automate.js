@@ -1,6 +1,7 @@
 
 function Automate(nb,e,f,t,s){
 
+
 this.n=nb;
 this.etats=[];
 this.finaux=f;
@@ -8,6 +9,8 @@ this.etiquettes=e;
 this.svg=s;
 this.trans=t;
 
+this.offsetX=0;
+this.offsetY=0;
 
 
 // c'est la matrice qui va contenir tous mes etats
@@ -22,6 +25,23 @@ this.m=new Matrice();
 // f c'est l'ensemble des etats finaux
 // t c'est l'ensemble des transitions
 this.initialiser=function(){
+
+
+
+var element =this.svg;
+
+  
+ 
+ 
+ if (element.offsetParent !== undefined) {
+		do {
+			this.offsetX += element.offsetLeft;
+			this.offsetY += element.offsetTop;
+		} while ((element = element.offsetParent));
+	}
+  
+ 
+
 
 
 var defs=document.getElementById("definition");
@@ -140,9 +160,20 @@ this.getMatrice=function(){
 };
 
 
+this.getOffsetX=function(){
+
+	return this.offsetX;
+};
+
+this.getOffsetY=function(){
+
+	return this.offsetY;
+};
+
+
 this.telecharger=function(){
 
-					alert("telechargement");
+					
 				var texte=$('#documentSvg').html();
 
 				
@@ -158,6 +189,9 @@ this.telecharger=function(){
 
 
 };
+
+
+
 
 }
 
