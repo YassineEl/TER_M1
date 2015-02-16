@@ -50,6 +50,11 @@ this.getA=function(){
 
 };
 
+this.getAutomate=function(){
+
+	return this.automate;
+
+};
 
 
 
@@ -69,7 +74,7 @@ this.automate=aut;
 
 
 this.redessinerTrans=function(){
-
+console.log("redessinerTrans");
 
 var xdep=this.automate.getEtat(this.de).getX();
 var ydep=this.automate.getEtat(this.de).getY();
@@ -77,21 +82,34 @@ var xarr=this.automate.getEtat(this.a).getX();
 var yarr=this.automate.getEtat(this.a).getY();
 
 
-var dist=Math.sqrt(Math.pow((xarr-xdep),2)+Math.pow((yarr-ydep),2));
 
-this.test.setAttribute("d","M "+xdep+" "+ydep+" T "+xarr+" "+yarr);
 
+this.test.setAttribute("d","M "+xdep+" "+ydep+" T "+this.qx+" "+this.qy);
+
+
+var dist2=Math.sqrt(Math.pow((xdep-this.qx),2)+Math.pow((ydep-this.qy),2));
 xdep=this.test.getPointAtLength(40).x;
 ydep=this.test.getPointAtLength(40).y;
-xarr=this.test.getPointAtLength(dist-55).x;
-yarr=this.test.getPointAtLength(dist-55).y;
+//xarr=this.test.getPointAtLength(dist-55).x;
+//yarr=this.test.getPointAtLength(dist-55).y;
 
 
 
+
+this.test.setAttribute("d","M "+this.qx+" "+this.qy+" T "+xarr+" "+yarr);
+var dist1=Math.sqrt(Math.pow((xarr-this.qx),2)+Math.pow((yarr-this.qy),2));
+xarr=this.test.getPointAtLength(dist1-55).x;
+yarr=this.test.getPointAtLength(dist1-55).y;
+
+
+
+//var dist=Math.sqrt(Math.pow((xarr-xdep),2)+Math.pow((yarr-ydep),2));
+
+var dist=dist1+dist2;
 
 var d="M "+xdep+" "+ydep+" Q "+this.qx+" "+this.qy+" "+xarr+" "+yarr;
 this.path.setAttribute("d",d);
-var centre=this.path.getPointAtLength((dist-60)/2);
+var centre=this.path.getPointAtLength((dist-90)/2);
 this.texte.setAttribute("x",centre.x);
 this.texte.setAttribute("y",centre.y);
 
@@ -108,28 +126,24 @@ if(!e1.memeLigne(e2)){
 			
 			// pour savoir si on va courber la transition horizontalement ou verticalement
 			
-			if(e1.auDessus(e2))
-			this.qy-=dist/4;
-			else 
-			this.qy+=dist/4;
+						if(e1.auDessus(e2))
+							this.qy-=dist/4;
+						else 
+							this.qy+=dist/4;
 
 
-		}else{
+}else{
 
 			
 			
 			if(e1.aGauche(e2))
-			{
 			
-			this.qx+=dist/4;
-			}
+				this.qx+=dist/4;
+			
 			else
-			{
-
 			
+                 this.qx-=dist/4;
 			
-			this.qx-=dist/4;
-			}
 		}
 
 };
@@ -137,13 +151,14 @@ if(!e1.memeLigne(e2)){
 
 this.redessiner=function(){
 
-
+console.log("redessiner");
 
 var xdep=this.automate.getEtat(this.de).getX();
 var ydep=this.automate.getEtat(this.de).getY();
+
 var xarr=this.automate.getEtat(this.a).getX();
 var yarr=this.automate.getEtat(this.a).getY();
-
+	
 
 var dist=Math.sqrt(Math.pow((xarr-xdep),2)+Math.pow((yarr-ydep),2));
 
@@ -153,6 +168,7 @@ xdep=this.test.getPointAtLength(40).x;
 ydep=this.test.getPointAtLength(40).y;
 xarr=this.test.getPointAtLength(dist-55).x;
 yarr=this.test.getPointAtLength(dist-55).y;
+
 
 
 
@@ -177,6 +193,15 @@ this.qy=(ydep+yarr)/2;
 
 
 
+
+
+
+
+
+
+
+
+
 var e1=this.automate.getEtat(this.de);
 var e2=this.automate.getEtat(this.a)
 
@@ -185,16 +210,17 @@ var e2=this.automate.getEtat(this.a)
 if(e1.existeTransation(e2)){
 
 	this.courber(e1,e2,dist);
+
 }
 else{
 if(e1.surMemeAxe(e2)==false)
-this.path.setAttribute("stroke","red");
+this.path.setAttribute("stroke","blue");
 
 else{ 
 
 	if(e1.lienDirect(e2))
 
-	this.path.setAttribute("stroke","red");
+		this.path.setAttribute("stroke","blue");
 	
 	else{
 
@@ -233,7 +259,7 @@ this.texte.setAttribute("x",xetiquette);
 this.texte.setAttribute("y",yetiquette);
 // redessiner les path entrants
 
-
+this.redessinerTrans();
 
 };
 
@@ -253,42 +279,15 @@ this.el.appendChild(this.path);
 
 
 
-/*
-
-en choisissant la methode du text path 
-l'inconvénient c'est que les lettre (etiquettes) si pivotent
-avec la ligne de la transation ce qui est indesirable vue qu'il rend l'etiquette
-illisible du coup j'ai decidé de representer ceci avec du texte simple
-
-var text = document.createElementNS(svgNS,"text");
-	
-
-this.texte=text;
-text.setAttribute("x","100");
-
-text.setAttribute("y","100");
-text.setAttribute("fill","black");
-
-var textPath = document.createElementNS(svgNS,"textPath");
-textPath.setAttributeNS(xlinkNS, "xlink:href", "#"+id);
-textPath.setAttribute("class","id");
-
-var textNode = document.createTextNode(this.etiquette);
-    		
-	
-	
-	textPath.appendChild(textNode);
-	textPath.setAttribute("rotate","90");
-	alert(textPath.getAttribute("rotate");
-text.appendChild(textPath);
-this.el.appendChild(text);
-*/
-
-
 
 
 var svgNS = "http://www.w3.org/2000/svg";
 var xlinkNS = "http://www.w3.org/1999/xlink";
+
+
+
+
+
 var text = document.createElementNS(svgNS,"text");
 this.texte=text;
 text.setAttribute("x","-1");
@@ -324,7 +323,7 @@ $(this.path).on("mousedown",function(){
 	$(this.el).on("mousemove",function(e){
 	
 	if(u.isClicked()){
-		u.setQ(e.pageX,e.pageY);
+		u.setQ(e.pageX-u.getAutomate().getOffsetX(),e.pageY-u.getAutomate().getOffsetY());
 		u.redessinerTrans();
 		}
 	});
