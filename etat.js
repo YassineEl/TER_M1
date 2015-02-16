@@ -113,7 +113,7 @@ this.dessiner=function(){
 	$(this.el).on("mousemove",function(e){
 	
 	if(u.isClicked()){
-		u.setCord(e.pageX,e.pageY);
+		u.setCord(e.pageX-u.getAutomate().getOffsetX(),e.pageY-u.getAutomate().getOffsetY());
 		
 		// ceci permet de redessiner toutes les transitions
 		//u.getAutomate().redessinerTrans();;
