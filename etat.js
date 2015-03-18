@@ -1,5 +1,4 @@
 
-
 function Etat(n,aut){
 
 this.num=n;
@@ -13,9 +12,35 @@ this.clicked=false;
 this.automate=aut;
 this.g=null;
 this.texte=null;
+this.ini=false;
+this.fin=false;
 
-// c'est l'element du dom svg dans lequel l'etat sera dessinée
+
+
+// c'est l'element du dom svg dans lequel l'etat sera dessinÃ©e
 this.el=null;
+
+
+this.estInitial=function(){
+
+	return this.ini;
+};
+
+this.estFinal=function(){
+	return this.fin;
+
+};
+
+
+this.isInitial=function(){
+
+	this.ini=true;
+};
+
+this.isFinal=function(){
+
+	this.fin=true;
+};
 
 
 this.ajouterTransition=function(k){
@@ -288,7 +313,62 @@ return false;
 };
 
 
+this.reconnaitre=function(mot,tab,ind){
+
+
+
+
+
+
+if(ind==mot.length){
+
+	
+	if(this.estFinal()){
+
+		
+		alert("ce mot est reconnu");
+		this.getAutomate().animation(tab,mot);
+
+
+	}else{
+
+
+		// le mot est bon mais il finit pas Ã  l'etat final
+		alert("le mot est bon mais il finit pas Ã  l'etat final");
+
+	}
+
+
+
+}else{
+
+	
+	
+	
+	for(i=0;i<this.trans.length;i++){
+
+
+		if(this.trans[i].getEtiquette()==mot.charAt(ind)){
+			ind++;
+			tab.push(this.trans[i]);
+			var etatArrivee=this.trans[i].getA();
+				
+			this.getAutomate().getEtat(etatArrivee).reconnaitre(mot,tab,ind);
+		}
+
+
+
+	}
+
+
+
 }
 
+
+
+
+};
+
+}
 
 
