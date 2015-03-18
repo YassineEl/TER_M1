@@ -196,4 +196,3 @@ this.getMatrice=function(){
 
 }
 
-
