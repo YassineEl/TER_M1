@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
  
@@ -7,12 +8,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
  
   <!-- Balise meta  -->
-  <meta name="title" content="Titre de la page" />
-  <meta name="description" content="description de la page"
-  <meta name="keywords" content="mots-clé1, mots-clé2, ..."
+
+  <meta name="description" content="description de la page">
  
-  <!-- Indexer et suivre -->
-  <meta name="robots" content="index,follow" />
+ 
+
+  
  
   <!--  Relier une feuille CSS externe  -->
   <link rel='stylesheet' href='votre-fichier.css' type='text/css' />
@@ -56,15 +57,17 @@ text.id {
 		<script src="transation.js"></script>
 		<script src="etat.js"></script>
 		<script src="matrice.js"></script>
+		<script src="animation.js"></script>
 		<script>
 			
 			
-			var t,e,f,aut;
+			var t,e,f,aut,ini;
 			var svg;
 			
 			
 			$(document).ready(function(){
 				
+				$("#textarea").hide();
 				svg=$("#svg")[0];
 			
 				
@@ -88,7 +91,7 @@ text.id {
 
 				f=[];// les etats finaux
 			    
-				
+				ini=[];//les etats initiaux
 
 
 
@@ -120,7 +123,7 @@ text.id {
 					 	}
 
 					 	
-					 	for(i=3;i<result.length;i++)
+					 	for(i=4;i<result.length;i++)
 					 		{
 					 			
 								var tran=result[i].split("=>");
@@ -133,12 +136,23 @@ text.id {
 
 
 					 		// les etats puits
-					 		var etatPuis=result[2].split(",");
+					 		var etatPuis=result[3].split(",");
 					 		for(i=0;i<etatPuis.length;i++)
+					 			
+					 				{
+
+					 					
 					 			f.push(etatPuis[i]);
 
+					 				}
 
-					 		 aut=new Automate(parseInt(result[0]),et,f,t,svg);
+					 		// les etats initiaux
+					 		var etatini=result[2].split(",");
+					 		for(i=0;i<etatini.length;i++)
+					 			ini.push(etatini[i]);
+
+
+					 		 aut=new Automate(parseInt(result[0]),et,f,ini,t,svg);
 							 aut.initialiser();
 		
 
@@ -163,8 +177,26 @@ text.id {
 					aut.telecharger();
 				});  
 				
+				$("textarea").keydown(function(e){
+                    
+                     if (e.keyCode == 13 && !e.shiftKey)
+                         {
+        					e.preventDefault();
+                   			
 
- 
+        					
+        				
+                   		 	aut.reconaissance($("#textarea").val());
+
+                   		 	$("textarea")[0].value="";
+                   		 }
+
+
+
+                   		
+				});  
+
+
 			});
 		
 		</script>
@@ -175,22 +207,15 @@ text.id {
 
 
 
-
-  <noscript>
-
-  Votre navigateur ne supporte pas javascript
-  veuillez utiliser une version plus recente ou changer de navigateur ...
-  </noscript>
+<title>automate</title> 
+ 
  
  </head>
- 
- 
  <body>
  
   			<div id="droite">
-		<?xml version="1.0" standalone="no"?>	
-		<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
-		"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+			
+		
 		<svg  id="svg" height="800" width="1000"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
 		 <rect x="0" y="0" width="1000" height="800" fill="thistle" id="bpard" />
 		<defs id="definition">
@@ -201,6 +226,8 @@ text.id {
       orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
+    </defs>
+		
 		</svg>
 
 	</div>
@@ -219,6 +246,22 @@ text.id {
 	<a href="#" id="tel">telecharger le fichier SVG </a>
 	<a href="test.txt" download>telecharger un exemple de fichier test</a>
 	<a href="source.zip" download>telecharger le code source</a>
+	
+
+
+
+
+
+	<textarea id="textarea"  rows="4"; >
+
+	</textarea>
+
+
+
+	<ul>
+
+	
+
 	</div>
  </body>
 </html>
