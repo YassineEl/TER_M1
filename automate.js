@@ -163,7 +163,7 @@ this.getMatrice=function(){
 this.getOffsetX=function(){
 
 	return this.offsetX;
-};
+};	
 
 this.getOffsetY=function(){
 
