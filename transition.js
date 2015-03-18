@@ -21,11 +21,16 @@ function Transition(i,e,f){
 	
 	
 	// c'est l'element dans le dom dans lequel 
-	// la transition sera dessinée
+	// la transition sera dessinÃ©e
 	this.el=null;
 
 		
-		
+	this.setColor=function(color){
+
+
+		this.path.setAttribute("stroke",color);
+
+	};		
 		
 		
 		this.getDe=function(){
@@ -362,4 +367,3 @@ return this.clicked;
 
 
 }
-
