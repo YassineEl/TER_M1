@@ -196,3 +196,5 @@ this.getMatrice=function(){
 
 }
 
+
+
