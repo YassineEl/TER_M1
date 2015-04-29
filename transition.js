@@ -21,7 +21,7 @@ function Transition(i,e,f){
 	
 	
 	// c'est l'element dans le dom dans lequel 
-	// la transition sera dessinÃ©e
+	// la transition sera dessinée
 	this.el=null;
 
 		
@@ -367,3 +367,4 @@ return this.clicked;
 
 
 }
+
