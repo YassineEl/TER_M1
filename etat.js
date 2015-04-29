@@ -17,7 +17,7 @@ this.fin=false;
 
 
 
-// c'est l'element du dom svg dans lequel l'etat sera dessinÃ©e
+// c'est l'element du dom svg dans lequel l'etat sera dessinée
 this.el=null;
 
 
@@ -333,8 +333,8 @@ if(ind==mot.length){
 	}else{
 
 
-		// le mot est bon mais il finit pas Ã  l'etat final
-		alert("le mot est bon mais il finit pas Ã  l'etat final");
+		// le mot est bon mais il finit pas à l'etat final
+		alert("le mot est bon mais il finit pas à l'etat final");
 
 	}
 
@@ -370,5 +370,6 @@ if(ind==mot.length){
 };
 
 }
+
 
 
