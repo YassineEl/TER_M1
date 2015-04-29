@@ -1,21 +1,26 @@
 
-function Automate(nb,e,f,t,s){
+
+
+
+
+function Automate(nb,e,f,ini,t,s){
 
 
 this.n=nb;
 this.etats=[];
 this.finaux=f;
+this.initiaux=ini;
 this.etiquettes=e;
 this.svg=s;
 this.trans=t;
-
+this.animations=[];
 this.offsetX=0;
 this.offsetY=0;
 
 
+
 // c'est la matrice qui va contenir tous mes etats
 this.m=new Matrice();
-
 
 
 
@@ -25,6 +30,7 @@ this.m=new Matrice();
 // f c'est l'ensemble des etats finaux
 // t c'est l'ensemble des transitions
 this.initialiser=function(){
+
 
 
 
@@ -46,19 +52,6 @@ var element =this.svg;
 
 var defs=document.getElementById("definition");
 
-
-
-    	
-
-
-
-
-
-
-
-
-
-
 this.m.creerMatrice(this.n);
 
 
@@ -69,7 +62,7 @@ for(i=0;i<this.n;i++){
 	
 	var e=new Etat(i,u);
 	    e.addEl(this.svg);	
-	this.etats.push(e);
+	    this.etats[i]=e;
 
 	
 	}
@@ -88,23 +81,44 @@ for( i=0;i<t.length;i++)
 
 	}
 	
+	
 	// placer les etats dans la matrice
 	this.m.placer(this.etats);
 	this.dessinerTrans();
 	this.m.dessiner();
 	this.redessinerTrans();    
 
-
-/*
-on a commencer par dessiner les transition qui au debut sont des points superposés
-puis on a dessiner les etats et puis on a redessiné les transitions et ceci c'est 
-parce que dans svg il n'y a pas l'attribut z-index pour pouvoir dire que les etats doivent cacher
-les traits des transitions donc a joué sur le fait qu'en dessinant les transitions au debut puis les etats
-donc ces derniers vons cacher les trait pour et donner une illusion que le trait commence a partir du bord
-du cercle et non a partir du centre
+	$("#textarea").show();
 
 
-*/	
+
+
+	var indice;
+	
+	//alert("nb ini+"this.initiaux.length);
+	
+	for(i=0;i<this.initiaux.length;i++){
+		
+
+		
+		indice=this.initiaux[i];
+
+		this.etats[parseInt(indice)].isInitial();
+		
+		
+	}
+	
+	
+	
+	for(i=0;i<this.finaux.length;i++){
+		
+		
+		indice=this.finaux[i];
+		
+		this.etats[parseInt(indice)].isFinal();
+		
+		
+	}
 };
 
 
@@ -114,6 +128,10 @@ this.getEtat=function(i){
 return this.etats[i];
 };
 
+this.getInitiaux=function(){
+
+	return this.initiaux;
+};
 
 this.ajouterEtat=function(e){
 
@@ -163,7 +181,7 @@ this.getMatrice=function(){
 this.getOffsetX=function(){
 
 	return this.offsetX;
-};	
+};
 
 this.getOffsetY=function(){
 
@@ -174,7 +192,7 @@ this.getOffsetY=function(){
 this.telecharger=function(){
 
 					
-				var texte=$('#documentSvg').html();
+				var texte=$('#droite').html();
 
 				
 				var pom = document.createElement("a");
@@ -190,10 +208,44 @@ this.telecharger=function(){
 
 };
 
+this.reconaissance=function(t){
+	t=t.trim();
+	
+	var tab=[];
+
+for(i=0;i<this.initiaux.length;i++)
+	this.etats[i].reconnaitre(t,tab,0);	
+
+};
+
+this.animation=function(tab,mot){
+
+	this.animations.push(new Animation(tab,mot));
+	
+	
+	
+	$("#ul").append("<li><a href='#'>lancer l'animation "+this.animations.length+"</a></li>");
 
 
+	var u=this;
+	$("#ul li").click(function(){
+
+
+
+					u.animer($("#ul li").index($(this)));
+
+				});
+
+};
+
+
+this.animer=function(ind){
+
+	this.animations[parseInt(ind)].animer(0);
+};
 
 }
+
 
 
 
